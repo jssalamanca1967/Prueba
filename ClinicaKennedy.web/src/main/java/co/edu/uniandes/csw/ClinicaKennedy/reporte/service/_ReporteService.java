@@ -49,7 +49,7 @@ import javax.enterprise.inject.Default;
 
 public abstract class _ReporteService {
 
-	@Default
+	@Inject
 	protected IReporteLogicService reporteLogicService;
 	
 	@POST

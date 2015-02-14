@@ -44,7 +44,7 @@ import javax.enterprise.inject.Default;
 
 public abstract class _PacienteMasterService {
 
-    @Default
+    @Inject
     protected IPacienteMasterLogicService pacienteLogicService;
 
     @POST

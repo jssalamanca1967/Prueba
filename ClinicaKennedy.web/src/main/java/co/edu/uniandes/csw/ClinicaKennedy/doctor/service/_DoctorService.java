@@ -49,7 +49,7 @@ import javax.enterprise.inject.Default;
 
 public abstract class _DoctorService {
 
-	@Default
+	@Inject
 	protected IDoctorLogicService doctorLogicService;
 	
 	@POST
