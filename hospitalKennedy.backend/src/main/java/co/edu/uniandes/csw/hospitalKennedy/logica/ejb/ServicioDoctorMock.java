@@ -37,7 +37,7 @@ public class ServicioDoctorMock implements IServicioDoctorMock {
     //@EJB
     //public static IServicioPersistenciaMockLocal persistencia;
     
-    @PersistenceContext(unitName = "HospitalKennedyPU")
+    @PersistenceUnit(unitName = "HospitalKennedyPU")
     EntityManager entityManager;
     
     private ArrayList<Paciente> pacientes;
@@ -97,9 +97,9 @@ public class ServicioDoctorMock implements IServicioDoctorMock {
 
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(paciente);
+            entityManager.persist(p);
             entityManager.getTransaction().commit();
-            entityManager.refresh(paciente);
+            entityManager.refresh(p);
             
         } catch (Throwable t) {
             t.printStackTrace();
@@ -118,8 +118,6 @@ public class ServicioDoctorMock implements IServicioDoctorMock {
 
     /**
      * Remueve un mueble del carrito de compra
-     * @param mueble Mueble a remover
-     * @param removerCero Indica si al ser cero se elimina de la lista
      */
     @Override
     public Paciente removerPaciente(String idPaciente)

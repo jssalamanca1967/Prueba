@@ -17,7 +17,7 @@ public class ReporteDTO {
     private String fechaCreacion;
     private String localizacionDolor;
     private String patronSuenio;
-    private int numeroIdentificacion;
+//    private Paciente paciente;
     private String medicamentosRecientes;
     
     public ReporteDTO()
@@ -85,15 +85,15 @@ public class ReporteDTO {
         return this.patronSuenio;
     }
     
-    public void setNumeroIdentificacion(int numeroIdentificacion)
-    {
-        this.numeroIdentificacion=numeroIdentificacion;
-    }
-    
-    public int getNumeroIdentificacion()
-    {
-        return this.numeroIdentificacion;
-    }
+//    public void setPaciente(Paciente paciente)
+//    {
+//        this.paciente=paciente;
+//    }
+//    
+//    public Paciente getPaciente()
+//    {
+//        return this.paciente;
+//    }
     
     public void setMedicamentosRecientes(String medicamentosRecientes)
     {

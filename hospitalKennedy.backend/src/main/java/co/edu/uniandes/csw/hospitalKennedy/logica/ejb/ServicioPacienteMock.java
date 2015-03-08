@@ -36,7 +36,7 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     
     //@EJB
     //public static IServicioPersistenciaMockLocal persistencia;
-     @PersistenceContext(unitName = "HospitalKennedyPU")
+     @PersistenceUnit(unitName = "HospitalKennedyPU")
     EntityManager entityManager;
 
     public ServicioPacienteMock()
@@ -59,9 +59,9 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     @Override
     public ArrayList<Reporte> getReportes(String idPaciente) 
     {
-        Query q = entityManager.createQuery("select u from Reporte u where u.idPaciente = '"+idPaciente+"'");
-        List<Reporte> reporte = q.getResultList();
-        ArrayList<Reporte>reportes = new ArrayList(reporte);
+        Query q = entityManager.createQuery("select u from Paciente u where u.idPaciente = '"+idPaciente+"'");
+        List<Paciente> pacientes = q.getResultList();
+        ArrayList<Reporte>reportes = new ArrayList(pacientes.get(0).getReportes());
         return reportes;
     }
     
@@ -77,15 +77,20 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
         r.setFechaCreacion(reporte.getFechaCreacion());
         r.setLocalizacionDolor(reporte.getLocalizacionDolor());
         r.setPatronSuenio(reporte.getPatronSuenio());
-        r.setNumeroIdentificacion(reporte.getNumeroIdentificacion());
+//        r.setPaciente(reporte.getPaciente());
         r.setMedicamentosRecientes(reporte.getMedicamentosRecientes());
+        Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
+        List<Paciente> pacientes = q.getResultList();
+        Paciente p = pacientes.get(0);
+        p.agregarReporte(r);
         
         try{
             entityManager.getTransaction().begin();
-            entityManager.persist(r);
+//            entityManager.persist(p);
             entityManager.getTransaction().commit();
-            entityManager.refresh(r);
-            rta.put("reporte_idReporte", r.getId());
+//            entityManager.refresh(p);
+//            rta.put("reporte_idReporte", r.getId());
+            
                     
         }
         catch(Throwable t)
@@ -109,11 +114,33 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     @Override
     public Reporte removerReporte(String idPaciente, String idReporte)
     {
-        Query q1 = entityManager.createQuery("select u from Paciente where u.id = '"+idPaciente+"' and u.idReporte ='"+idReporte+"'");
-        List<Reporte> reporte = q1.getResultList();
-        Query q2 = entityManager.createQuery("delete u from Reporte u where u.id = '"+idReporte+"'");
-        q2.executeUpdate();
-        return reporte.get(0);
+        Query q1 = entityManager.createQuery("select u from Paciente where u.id = '"+idPaciente+"'");
+        List<Paciente> pacientes = q1.getResultList();
+        Paciente p =pacientes.get(0);
+        Reporte r = p.getReporte(idReporte);
+        p.removerReporte(idReporte);
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.getTransaction().commit();                    
+        }
+        catch(Throwable t)
+                {
+                    t.printStackTrace();
+                    if(entityManager.getTransaction().isActive())
+                    {
+                        entityManager.getTransaction().rollback();
+                    }
+                    r = null;
+                }
+        finally
+        {
+            entityManager.clear();
+            entityManager.close();
+        }
+        
+//        Query q2 = entityManager.createQuery("delete u from Reporte u where u.id = '"+idReporte+"'");
+//        q2.executeUpdate();
+        return r;
     }
 
     
@@ -137,12 +164,13 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     @Override
     public Reporte getReportePorPaciente(String idPaciente, String idReporte) {
     
-        Query q = entityManager.createQuery("select u from Reporte u where u.idPaciente = '"+idPaciente+"'"+" and u.id = "+idReporte+"'");
-        List<Reporte> reporte = q.getResultList();
-        return reporte.get(0);
+        Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'"+"'");
+        List<Paciente> pacientes = q.getResultList();
+        return pacientes.get(0).getReporte(idReporte);
     }
 
     @Override
+    //Arreglar
     public List<Reporte> getReportesEntreFechas(String idPaciente, String  codFecha1, String codFecha2) {
         
        Query q = entityManager.createQuery("select u from Reporte u where u.fecha1 = '"+codFecha1+"' and u.fecha2 = '"+codFecha2+"' and u.idPaciente = '"+idPaciente+"'");

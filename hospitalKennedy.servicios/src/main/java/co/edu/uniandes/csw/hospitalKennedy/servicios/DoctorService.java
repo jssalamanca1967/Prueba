@@ -55,7 +55,6 @@ public class DoctorService {
     @POST
     @Path("/agregar")
     public Response agregarPaciente(PacienteDTO paciente){
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh   juanjo es gayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
       //  for(Paciente paciente: lista){
       //      doctorEjb.agregarPaciente(paciente);
       //  }
