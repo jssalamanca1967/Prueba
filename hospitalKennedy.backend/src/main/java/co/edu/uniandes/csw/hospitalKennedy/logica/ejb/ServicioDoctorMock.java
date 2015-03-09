@@ -23,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import static javax.swing.text.html.FormSubmitEvent.MethodType.GET;
 import javax.ws.rs.core.Response;
 
 
@@ -122,11 +123,35 @@ public class ServicioDoctorMock implements IServicioDoctorMock {
     @Override
     public Paciente removerPaciente(String idPaciente)
     {
-        Query q1 = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
-        List<Paciente> p = q1.getResultList();
-        Query q2 = entityManager.createQuery("delete u from Paciente u where u.id = '"+idPaciente+"'");
-        q2.executeUpdate();
-        return p.get(0);
+        
+       Paciente p = null;
+        
+        for(int i=0;i<pacientes.size();i++)
+        {
+            if(pacientes.get(i).getId().equals(idPaciente))
+            {
+                p= pacientes.get(i);
+            }
+        }
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(p);
+            entityManager.getTransaction().commit();
+            //entityManager.refresh(p);
+            
+        } catch (Throwable t) {
+            t.printStackTrace();
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            p = null;
+        } finally {
+        	entityManager.clear();
+        	entityManager.close();
+        }
+        
+        return p;
 
     }
     

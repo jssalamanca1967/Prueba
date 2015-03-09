@@ -57,7 +57,7 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     }
 
     @Override
-    public ArrayList<Reporte> getReportes(String idPaciente) 
+    public List<Reporte> getReportes(String idPaciente) 
     {
         Query q = entityManager.createQuery("select u from Paciente u where u.idPaciente = '"+idPaciente+"'");
         List<Paciente> pacientes = q.getResultList();
@@ -65,36 +65,25 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
         return reportes;
     }
     
-             
-    @Override
-    public ReporteDTO agregarReporte(String idPaciente, ReporteDTO reporte){
-    
+     @Override        
+    public ReporteDTO agregarReporte(String idPaciente, ReporteDTO reporte)
+    {
        Reporte r = new Reporte();
-        JSONObject rta = new JSONObject();
+       
         r.setActividadFisica(reporte.getActividadFisica());
         r.setAlimentacion(reporte.getAlimentacion());
         r.setGravedad(reporte.getGravedad());
         r.setFechaCreacion(reporte.getFechaCreacion());
         r.setLocalizacionDolor(reporte.getLocalizacionDolor());
         r.setPatronSuenio(reporte.getPatronSuenio());
-//        r.setPaciente(reporte.getPaciente());
-        r.setMedicamentosRecientes(reporte.getMedicamentosRecientes());
-        Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
-        List<Paciente> pacientes = q.getResultList();
-        Paciente p = pacientes.get(0);
-        p.agregarReporte(r);
+        r.setMedicamentosRecientes(reporte.getMedicamentosRecientes());     
         
         try{
             entityManager.getTransaction().begin();
-//            entityManager.persist(p);
+            entityManager.persist(r);
             entityManager.getTransaction().commit();
-//            entityManager.refresh(p);
-//            rta.put("reporte_idReporte", r.getId());
-            
-                    
-        }
-        catch(Throwable t)
-                {
+            entityManager.refresh(r);            
+        }catch(Throwable t){
                     t.printStackTrace();
                     if(entityManager.getTransaction().isActive())
                     {
