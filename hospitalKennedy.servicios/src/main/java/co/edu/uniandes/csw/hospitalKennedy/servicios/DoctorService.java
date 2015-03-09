@@ -75,15 +75,19 @@ public class DoctorService {
        
     }
     
+    /**
+     *
+     * @param idPaciente
+     */
     @DELETE
     @Path("borrar/{idPaciente}")
-    public Response eliminarPaciente(@PathParam("idPaciente") String idPaciente){
+    public Response eliminarPaciente(String idPaciente){
         //for(Paciente paciente: lista){
         //    doctorEjb.removerPaciente(paciente);
         //}
         Paciente p = servicioDoctor.removerPaciente(idPaciente);
-        return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(p).build();           
-
+        return Response.status(200).header("Access-Control-allow-Origin", "*").entity(p).build();
+        
     }
     
     //@GET
@@ -94,6 +98,11 @@ public class DoctorService {
     //    return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(paciente).build();           
     //}
     
+    /**
+     *
+     * @return
+     */
+        
     @GET
     @Path("/paciente/")
     public Response darPacientes(){
