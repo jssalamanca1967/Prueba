@@ -59,7 +59,7 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     @Override
     public List<Reporte> getReportes(String idPaciente) 
     {
-        Query q = entityManager.createQuery("select u from Paciente u where u.idPaciente = '"+idPaciente+"'");
+        Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
         List<Paciente> pacientes = q.getResultList();
         ArrayList<Reporte>reportes = new ArrayList(pacientes.get(0).getReportes());
         return reportes;
@@ -76,13 +76,17 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
         r.setFechaCreacion(reporte.getFechaCreacion());
         r.setLocalizacionDolor(reporte.getLocalizacionDolor());
         r.setPatronSuenio(reporte.getPatronSuenio());
-        r.setMedicamentosRecientes(reporte.getMedicamentosRecientes());     
+        r.setMedicamentosRecientes(reporte.getMedicamentosRecientes());  
+        Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
+        List<Paciente> pacientes = q.getResultList();
+        Paciente p = pacientes.get(0);
+        p.agregarReporte(r);
         
         try{
             entityManager.getTransaction().begin();
-            entityManager.persist(r);
+            entityManager.persist(p);
             entityManager.getTransaction().commit();
-            entityManager.refresh(r);            
+            entityManager.refresh(p);            
         }catch(Throwable t){
                     t.printStackTrace();
                     if(entityManager.getTransaction().isActive())
@@ -110,6 +114,7 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
         p.removerReporte(idReporte);
         try{
             entityManager.getTransaction().begin();
+            entityManager.persist(p);
             entityManager.getTransaction().commit();                    
         }
         catch(Throwable t)
@@ -164,7 +169,7 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
         
        Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
        List<Paciente> pacientes = q.getResultList();
-       return pacientes.get(0).getReportes();
+       return pacientes.get(0).getReportesEntreFechas(codFecha1,codFecha2);
         
     }
 

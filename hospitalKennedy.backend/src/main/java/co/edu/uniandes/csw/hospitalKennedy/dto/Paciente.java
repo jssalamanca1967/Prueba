@@ -109,7 +109,7 @@ public class Paciente implements Serializable{
         return r;
     }
     
-    public List<Reporte> getReportesEntreFechas(String fecha1, String fecha2, List<Reporte> reportes)
+    public List<Reporte> getReportesEntreFechas(String fecha1, String fecha2)
     {
         List<Reporte> estos= new ArrayList<Reporte>();
         for(int i =0;i<reportes.size();i++)
@@ -129,6 +129,7 @@ public class Paciente implements Serializable{
             {
                 e.printStackTrace();
             }
+            
             
             
         }
