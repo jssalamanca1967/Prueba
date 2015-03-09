@@ -124,15 +124,9 @@ public class ServicioDoctorMock implements IServicioDoctorMock {
     public Paciente removerPaciente(String idPaciente)
     {
         
-       Paciente p = null;
+       
         
-        for(int i=0;i<pacientes.size();i++)
-        {
-            if(pacientes.get(i).getId().equals(idPaciente))
-            {
-                p= pacientes.get(i);
-            }
-        }
+      Paciente p =  entityManager.find(Paciente.class, idPaciente);
 
         try {
             entityManager.getTransaction().begin();

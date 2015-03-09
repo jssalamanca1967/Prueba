@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
  
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
  
 import javax.persistence.Column;
@@ -106,6 +109,31 @@ public class Paciente implements Serializable{
         return r;
     }
     
+    public List<Reporte> getReportesEntreFechas(String fecha1, String fecha2, List<Reporte> reportes)
+    {
+        List<Reporte> estos= new ArrayList<Reporte>();
+        for(int i =0;i<reportes.size();i++)
+        {
+            SimpleDateFormat formato = new SimpleDateFormat("dd-mm-yyyy");
+            try
+            {
+                Date fech1 = formato.parse(fecha1);
+                Date fech2 = formato.parse(fecha2);
+                Date fecha = formato.parse(reportes.get(i).getFechaCreacion());
+                if(fecha.after(fech1)&&fecha.before(fech2))
+                {
+                    estos.add(reportes.get(i));
+                }
+            }
+            catch(ParseException e)
+            {
+                e.printStackTrace();
+            }
+            
+            
+        }
+        return estos;
+    }
     public void removerReporte(String idReporte)
     {
         boolean ya =false;

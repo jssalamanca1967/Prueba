@@ -162,9 +162,9 @@ public class ServicioPacienteMock implements IServicioPacienteMock {
     //Arreglar
     public List<Reporte> getReportesEntreFechas(String idPaciente, String  codFecha1, String codFecha2) {
         
-       Query q = entityManager.createQuery("select u from Reporte u where u.fecha1 = '"+codFecha1+"' and u.fecha2 = '"+codFecha2+"' and u.idPaciente = '"+idPaciente+"'");
-       List<Reporte> reporte = q.getResultList();
-       return reporte;
+       Query q = entityManager.createQuery("select u from Paciente u where u.id = '"+idPaciente+"'");
+       List<Paciente> pacientes = q.getResultList();
+       return pacientes.get(0).getReportes();
         
     }
 
