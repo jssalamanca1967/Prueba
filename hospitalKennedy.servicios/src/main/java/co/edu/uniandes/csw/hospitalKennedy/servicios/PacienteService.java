@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
+//import javax.ejb.EJB;
+//import javax.ejb.Stateful;
+//import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,7 +38,7 @@ import org.json.simple.JSONObject;
  * @author estudiante
  */
 @Path("/Pacientes")
-@Stateful
+//@Stateful
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PacienteService {
@@ -51,7 +51,7 @@ public class PacienteService {
     //    pacienteEjb = new ServicioPacienteMock();
     //}
     
-     ServicioPacienteMock servicioPaciente;
+    ServicioPacienteMock servicioPaciente;
     
     //@PostConstruct
     //public void init() {
@@ -112,7 +112,7 @@ public class PacienteService {
     @Path("{id}/reportes/")
     public Response darReportes(@PathParam("id") String idPaciente){
         //return pacienteEjb.getReportes(id);
-       List<Reporte>reportes= servicioPaciente.getReportes(idPaciente);
+        List<Reporte>reportes= servicioPaciente.getReportes(idPaciente);
         return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(reportes).build();
         
     }
