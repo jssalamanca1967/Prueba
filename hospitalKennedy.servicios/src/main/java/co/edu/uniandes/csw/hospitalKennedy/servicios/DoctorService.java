@@ -14,9 +14,9 @@ import co.edu.uniandes.csw.hospitalKennedy.logica.interfaces.IServicioDoctorMock
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
+//import javax.ejb.EJB;
+//import javax.ejb.Stateful;
+//import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -37,7 +37,7 @@ import org.json.simple.JSONObject;
  * @author estudiante
  */
 @Path("/Doctor")
-@Stateful
+//@Stateful
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DoctorService {
